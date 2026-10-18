@@ -1,32 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ShieldCheck, Star, Clock, Sparkles, Check, ArrowRight } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import { ShieldCheck, Star, Clock, Sparkles, Check } from 'lucide-react';
 
 export function WhyChooseUs() {
-  const container = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    gsap.from('.why-card', {
-      scrollTrigger: {
-        trigger: container.current,
-        start: 'top 75%',
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power3.out',
-    });
-  }, { scope: container });
-
   const reasons = [
     {
       badge: 'QUALIDADE 100%',
@@ -61,14 +37,12 @@ export function WhyChooseUs() {
   return (
     <section
       id="diferenciais"
-      ref={container}
-      className="relative py-24 sm:py-32 bg-[#07090E] border-t border-white/[0.04] overflow-hidden"
+      className="relative py-20 sm:py-28 bg-[#07090E] border-t border-white/[0.06] overflow-hidden"
     >
-      {/* Volumetric background glow */}
       <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-blue-600/10 rounded-full blur-[160px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
           <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-blue-400 mb-3">
             <Sparkles className="w-3.5 h-3.5" strokeWidth={1.8} aria-hidden="true" />
             Excelência Comprovada
@@ -76,7 +50,7 @@ export function WhyChooseUs() {
           <h2 className="font-display font-extrabold text-3xl sm:text-5xl uppercase tracking-[-0.02em] text-white leading-tight">
             FAZEMOS O QUE OS OUTROS NÃO CONSEGUEM FAZER
           </h2>
-          <p className="mt-4 text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-3 text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             A combinação de técnica, paciência e paixão por carros que transformou a Center Car no ponto de referência em Rio do Sul.
           </p>
         </div>
@@ -88,9 +62,8 @@ export function WhyChooseUs() {
             return (
               <div
                 key={idx}
-                className="why-card rounded-3xl p-7 studio-card flex flex-col justify-between group relative overflow-hidden"
+                className="rounded-3xl p-7 studio-card flex flex-col justify-between group relative overflow-hidden"
               >
-                {/* Subtle top gradient accent */}
                 <div
                   className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.accent} opacity-50 group-hover:opacity-100 transition-opacity`}
                 />

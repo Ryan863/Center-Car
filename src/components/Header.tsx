@@ -1,55 +1,31 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState, useEffect } from 'react';
 import { Phone, MessageCircle, Menu, X, ArrowUpRight, Sparkles } from 'lucide-react';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
-
 export function Header() {
-  const headerRef = useRef<HTMLElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const WHATSAPP_HERO =
     'https://wa.me/5547991635180?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20lava%C3%A7%C3%A3o%20na%20Center%20Car.';
 
-  useGSAP(() => {
-    // ScrollTrigger to animate navbar from 100% transparent to glassmorphic dark studio bar after 80px scroll
-    ScrollTrigger.create({
-      start: 'top -80',
-      onEnter: () => {
-        gsap.to(headerRef.current, {
-          backgroundColor: 'rgba(7, 9, 14, 0.88)',
-          backdropFilter: 'blur(16px)',
-          borderBottomColor: 'rgba(59, 130, 246, 0.15)',
-          paddingTop: '0.875rem',
-          paddingBottom: '0.875rem',
-          duration: 0.35,
-          ease: 'power2.out',
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to(headerRef.current, {
-          backgroundColor: 'rgba(7, 9, 14, 0)',
-          backdropFilter: 'blur(0px)',
-          borderBottomColor: 'rgba(255, 255, 255, 0)',
-          paddingTop: '1.25rem',
-          paddingBottom: '1.25rem',
-          duration: 0.35,
-          ease: 'power2.out',
-        });
-      },
-    });
-  }, { scope: headerRef });
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <header
-      ref={headerRef}
-      className="fixed top-0 left-0 right-0 z-50 transition-colors border-b border-transparent py-5 px-4 sm:px-8 bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-8 ${
+        scrolled
+          ? 'bg-[#07090E]/90 backdrop-blur-md border-b border-blue-500/20 py-3.5 shadow-xl shadow-black/40'
+          : 'bg-transparent border-b border-transparent py-5'
+      }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Typographic Logo (Style Max Color) */}

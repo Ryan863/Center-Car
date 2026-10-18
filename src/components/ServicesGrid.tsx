@@ -1,15 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, MessageCircle, Sparkles, CheckCircle2 } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
 
 interface ServiceItem {
   id: string;
@@ -22,26 +14,10 @@ interface ServiceItem {
 }
 
 export function ServicesGrid() {
-  const container = useRef<HTMLDivElement>(null);
-
   const getWaLink = (serviceName: string) =>
     `https://wa.me/5547991635180?text=${encodeURIComponent(
       `Olá! Gostaria de agendar o serviço de ${serviceName} na Center Car.`
     )}`;
-
-  useGSAP(() => {
-    gsap.from('.service-card-item', {
-      scrollTrigger: {
-        trigger: container.current,
-        start: 'top 75%',
-      },
-      y: 45,
-      opacity: 0,
-      duration: 0.9,
-      stagger: 0.12,
-      ease: 'power3.out',
-    });
-  }, { scope: container });
 
   const services: ServiceItem[] = [
     {
@@ -49,8 +25,8 @@ export function ServicesGrid() {
       title: 'LAVAÇÃO EXTERNA & ESPUMA TÉCNICA',
       category: 'CUIDADO EXTERNO',
       description:
-        'Pré-lavagem com snow foam de pH neutro para desprendimento de sujidades pesadas sem atrito. Lavagem manual com método de dois baldes e microfibras de alta gramatura.',
-      highlights: ['Snow foam sem atrito', 'Secagem técnica com ar', 'Acabamento sem manchas'],
+        'Pré-lavagem com snow foam de pH neutro para desprendimento de sujidades pesadas sem atrito. Lavagem manual com método de dois baldes e microfibras puras.',
+      highlights: ['Snow foam sem atrito', 'Secagem técnica com ar', 'Acabamento sem marcas'],
       imageSrc: '/images/service-front.jpg',
     },
     {
@@ -103,15 +79,14 @@ export function ServicesGrid() {
   return (
     <section
       id="servicos"
-      ref={container}
-      className="relative py-24 sm:py-32 bg-[#07090E] overflow-hidden"
+      className="relative py-20 sm:py-28 bg-[#07090E] overflow-hidden"
     >
       {/* Background radial spotlight */}
       <div className="pointer-events-none absolute right-1/4 top-1/3 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[150px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
         {/* Section Header (Estilo Max Color "TYPES OF CAR PAINTING") */}
-        <div className="max-w-3xl mb-14 sm:mb-20">
+        <div className="max-w-3xl mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-blue-400 mb-3">
             <Sparkles className="w-3.5 h-3.5" strokeWidth={1.8} aria-hidden="true" />
             Catálogo Editorial de Cuidados
@@ -119,7 +94,7 @@ export function ServicesGrid() {
           <h2 className="font-display font-extrabold text-3xl sm:text-4xl md:text-5xl uppercase tracking-[-0.02em] text-white">
             SERVIÇOS DE LAVAÇÃO & DETALHAMENTO
           </h2>
-          <p className="mt-4 text-neutral-400 text-sm sm:text-base leading-relaxed">
+          <p className="mt-3 text-neutral-400 text-sm sm:text-base leading-relaxed">
             Cada etapa é executada com metodologia precisa para valorizar seu automóvel sem agredir superfícies delicadas.
           </p>
         </div>
@@ -131,9 +106,8 @@ export function ServicesGrid() {
               return (
                 <div
                   key={service.id}
-                  className="service-card-item rounded-3xl p-7 sm:p-8 studio-card-blue flex flex-col justify-between relative overflow-hidden"
+                  className="rounded-3xl p-7 sm:p-8 studio-card-blue flex flex-col justify-between relative overflow-hidden"
                 >
-                  {/* Subtle inner reflection */}
                   <div className="absolute -top-24 -right-24 w-52 h-52 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
                   <div>
@@ -176,7 +150,7 @@ export function ServicesGrid() {
             return (
               <div
                 key={service.id}
-                className="service-card-item rounded-3xl studio-card flex flex-col justify-between overflow-hidden group"
+                className="rounded-3xl studio-card flex flex-col justify-between overflow-hidden group"
               >
                 {/* Top content */}
                 <div className="p-7 sm:p-8 pb-4">
@@ -194,7 +168,7 @@ export function ServicesGrid() {
                     {service.highlights.map((h, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center text-[11px] px-2.5 py-1 rounded-md bg-white/[0.03] border border-white/[0.06] text-neutral-300"
+                        className="inline-flex items-center text-[11px] px-2.5 py-1 rounded-md bg-white/[0.04] border border-white/[0.08] text-neutral-300"
                       >
                         {h}
                       </span>
@@ -202,9 +176,9 @@ export function ServicesGrid() {
                   </div>
                 </div>
 
-                {/* Macro Photography Container (Max Color style cropped photography) */}
+                {/* Macro Photography Container */}
                 {service.imageSrc && (
-                  <div className="relative w-full aspect-[16/10] mt-4 overflow-hidden">
+                  <div className="relative w-full h-48 sm:h-56 mt-4 overflow-hidden bg-[#0A0D14]">
                     <Image
                       src={service.imageSrc}
                       alt={service.title}
@@ -212,11 +186,9 @@ export function ServicesGrid() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
-                    {/* Gradient overlay to integrate with dark card */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E131F] via-[#0E131F]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E131F] via-[#0E131F]/20 to-transparent pointer-events-none" />
                     
-                    {/* Action link over the image */}
-                    <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between">
+                    <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between z-10">
                       <a
                         href={getWaLink(service.title)}
                         target="_blank"

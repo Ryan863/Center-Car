@@ -1,14 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Star, CheckCircle, ExternalLink, MessageCircle, Quote } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import { useState } from 'react';
+import { Star, CheckCircle, ExternalLink } from 'lucide-react';
 
 interface ReviewItem {
   id: number;
@@ -21,7 +14,6 @@ interface ReviewItem {
 }
 
 export function GoogleReviews() {
-  const container = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'todas' | 'lavacao' | 'interna' | 'rodas'>('todas');
   const [expandedCount, setExpandedCount] = useState(6);
 
@@ -272,27 +264,11 @@ export function GoogleReviews() {
 
   const displayedReviews = filteredReviews.slice(0, expandedCount);
 
-  useGSAP(() => {
-    gsap.from('.review-card-item', {
-      scrollTrigger: {
-        trigger: container.current,
-        start: 'top 75%',
-      },
-      y: 30,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.08,
-      ease: 'power3.out',
-    });
-  }, { scope: container, dependencies: [activeTab, expandedCount] });
-
   return (
     <section
       id="avaliacoes"
-      ref={container}
-      className="relative py-24 sm:py-32 bg-[#07090E] border-t border-white/[0.04] overflow-hidden"
+      className="relative py-20 sm:py-28 bg-[#07090E] border-t border-white/[0.06] overflow-hidden"
     >
-      {/* Background ambient light */}
       <div className="pointer-events-none absolute right-1/3 top-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[140px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
@@ -312,7 +288,7 @@ export function GoogleReviews() {
           </div>
 
           {/* Google Score Badge */}
-          <div className="inline-flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-sm shrink-0">
+          <div className="inline-flex items-center gap-4 p-4 rounded-2xl bg-[#0E131F] border border-blue-500/20 backdrop-blur-sm shrink-0">
             <div className="text-right">
               <div className="text-xl font-bold font-display text-white flex items-center justify-end gap-1.5">
                 <span>5.0</span>
@@ -342,10 +318,10 @@ export function GoogleReviews() {
                 setActiveTab(tab.id as any);
                 setExpandedCount(6);
               }}
-              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === tab.id
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                  : 'bg-white/[0.03] text-neutral-400 hover:text-white hover:bg-white/[0.07] border border-white/5'
+                  : 'bg-white/[0.04] text-neutral-400 hover:text-white hover:bg-white/[0.08] border border-white/5'
               }`}
             >
               {tab.label}
@@ -358,7 +334,7 @@ export function GoogleReviews() {
           {displayedReviews.map((item) => (
             <div
               key={item.id}
-              className="review-card-item rounded-3xl p-7 studio-card flex flex-col justify-between group relative overflow-hidden"
+              className="rounded-3xl p-7 studio-card flex flex-col justify-between group relative overflow-hidden"
             >
               <div>
                 {/* Header author and stars */}
@@ -412,15 +388,15 @@ export function GoogleReviews() {
           <div className="mt-8 text-center">
             <button
               onClick={() => setExpandedCount((prev) => prev + 6)}
-              className="btn-pill-ghost px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-neutral-200 hover:text-white"
+              className="btn-pill-ghost px-6 py-2.5 text-xs uppercase tracking-wider font-semibold text-neutral-200 hover:text-white cursor-pointer"
             >
               Carregar Mais Depoimentos ({filteredReviews.length - expandedCount} restantes)
             </button>
           </div>
         )}
 
-        {/* Central Automated Google Maps Button (As specified in prompt Dobra 4) */}
-        <div className="mt-14 text-center">
+        {/* Central Automated Google Maps Button */}
+        <div className="mt-12 text-center">
           <a
             href={GOOGLE_MAPS_REVIEWS}
             target="_blank"

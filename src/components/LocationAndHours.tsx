@@ -1,9 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   MapPin,
   Clock,
@@ -16,13 +12,7 @@ import {
 } from 'lucide-react';
 import { InstagramIcon, FacebookIcon } from './icons';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
-
 export function LocationAndHours() {
-  const container = useRef<HTMLDivElement>(null);
-
   const ADDRESS_FULL = 'R. Otto Ern, 1157 - Laranjeiras, Rio do Sul - SC, 89167-324';
   const GPS_DIRECTIONS = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
     ADDRESS_FULL
@@ -30,24 +20,9 @@ export function LocationAndHours() {
   const WHATSAPP_URL =
     'https://wa.me/5547991635180?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20lava%C3%A7%C3%A3o%20na%20Center%20Car.';
 
-  useGSAP(() => {
-    gsap.from('.location-card-reveal', {
-      scrollTrigger: {
-        trigger: container.current,
-        start: 'top 75%',
-      },
-      y: 35,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power3.out',
-    });
-  }, { scope: container });
-
   return (
     <section
       id="localizacao"
-      ref={container}
       className="relative py-24 sm:py-32 bg-[#07090E] border-t border-white/[0.04] overflow-hidden"
     >
       {/* Background glow */}
